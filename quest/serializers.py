@@ -10,6 +10,7 @@ class ChannelSerializer(serializers.ModelSerializer):
 
 
 class CampaignSerializer(serializers.ModelSerializer):
+    channel = ChannelSerializer(many=False, read_only=True)
 
     class Meta:
         model = Campaign
