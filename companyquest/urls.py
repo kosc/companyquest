@@ -16,7 +16,23 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from quest.views import ChannelList, ChannelCreate, \
+                        ChannelUpdate, ChannelDelete, \
+                        CampaignList, CampaignCreate, \
+                        CampaignUpdate, CampaignDelete
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    url(r'^channels$', ChannelList.as_view(), name='channel_list'),
+    url(r'^channels/new$', ChannelCreate.as_view(), name='channel_new'),
+    url(r'^channels/edit/(?P<pk>\d+)$', ChannelUpdate.as_view(), name='channel_edit'),
+    url(r'^channels/delete/(?P<pk>\d+)$', ChannelDelete.as_view(), name='channel_delete'),
+
+    url(r'^campaign$', CampaignList.as_view(), name='campaign_list'),
+    url(r'^campaign/new$', CampaignCreate.as_view(), name='campaign_new'),
+    url(r'^campaign/edit/(?P<pk>\d+)$', CampaignUpdate.as_view(), name='campaign_edit'),
+    url(r'^campaign/delete/(?P<pk>\d+)$', CampaignDelete.as_view(), name='campaign_delete'),
+
     url(r'^api/', include('quest.urls', namespace='quest')),
 ]

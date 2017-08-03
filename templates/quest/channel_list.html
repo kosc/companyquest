@@ -1,0 +1,12 @@
+<h1>Channels List</h1>
+<ul>
+  {% for channel in object_list %}
+    <li>
+      {{ channel.name }}
+      <a href="{% url 'channel_edit' channel.id %}">Edit</a>
+      <a href="{% url 'channel_delete' channel.id %}">Delete</a>
+    </li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'channel_new' %}">New</a>
