@@ -69,3 +69,83 @@ class ChannelCRUDTestCase(TestCase):
         response = self.client.post(delete_url, {}, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "deleted channel")
+
+
+class CampaignCRUDTestCase(TestCase):
+
+    @classmethod
+    def setUpTestData(self):
+        super(CampaignCRUDTestCase, self).setUpTestData()
+        self.channel = Channel()
+        self.channel.name = 'Channel Name'
+        self.channel.slug = 'channel-slug'
+        self.channel.bid_types = ['cdi']
+        self.channel.save()
+        self.campaign_to_edit = Campaign()
+        self.campaign_to_edit.name = 'name before edit'
+        self.campaign_to_edit.channel = self.channel
+        self.campaign_to_edit.bid = 23.3
+        self.campaign_to_edit.bid_type = 'bdi'
+        self.campaign_to_edit.save()
+        self.campaign_to_delete = Campaign()
+        self.campaign_to_delete.name = 'deleted campaign'
+        self.campaign_to_delete.channel = self.channel
+        self.campaign_to_delete.bid = 24.5
+        self.campaign_to_delete.bid_type = 'cdi'
+        self.campaign_to_delete.save()
+        self.campaign_to_read = Campaign()
+        self.campaign_to_read.name = 'Readable campaign'
+        self.campaign_to_read.channel = self.channel
+        self.campaign_to_read.bid = 25.6
+        self.campaign_to_read.bid_type = 'cdi'
+        self.campaign_to_read.save()
+
+    def test_read_campaign(self):
+        response = self.client.get('/campaigns/detail/' + str(self.campaign_to_read.id) + '/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Readable campaign')
+        self.assertContains(response, 'Channel Name')
+        self.assertContains(response, '25.6')
+        self.assertContains(response, 'cdi')
+
+    def test_create_campaign(self):
+        response = self.client.get('/campaigns/new')
+        self.assertEqual(response.status_code, 200)
+        new_campaign_data = {
+            'name': 'Campaign name',
+            'channel': self.channel,
+            'bid': 23.1,
+            'bid_type': 'cdi',
+        }
+        response = self.client.post(
+                '/campaigns/new',
+                new_campaign_data,
+                follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Campaign name")
+
+    def test_update_campaign(self):
+        edit_url = '/campaigns/edit/' + str(self.campaign_to_edit.id)
+        response = self.client.get(edit_url)
+        self.assertEqual(response.status_code, 200)
+        edited_campaign_data = {
+            'name': 'name after edit',
+            'channel': self.channel,
+            'bid': 23.1,
+            'bid_type': 'cdi',
+        }
+        response = self.client.post(edit_url, edited_campaign_data, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "name after edit")
+
+    def test_delete_campaign(self):
+        delete_url = '/campaigns/delete/' + str(self.campaign_to_delete.id)
+        response = self.client.get('/campaigns')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "deleted campaign")
+        response = self.client.get(delete_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Are you sure")
+        response = self.client.post(delete_url, {}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "deleted campaign")
