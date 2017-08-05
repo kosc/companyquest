@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from quest.views import ChannelList, ChannelCreate, \
+from quest.views import ChannelList, ChannelCreate, ChannelDetail, \
                         ChannelUpdate, ChannelDelete, \
                         CampaignList, CampaignCreate, \
                         CampaignUpdate, CampaignDelete
@@ -26,6 +26,7 @@ urlpatterns = [
 
     url(r'^channels$', ChannelList.as_view(), name='channel_list'),
     url(r'^channels/new$', ChannelCreate.as_view(), name='channel_new'),
+    url(r'^channels/(?P<slug>[-\w]+)/', ChannelDetail.as_view(), name='channel_detail'),
     url(r'^channels/edit/(?P<pk>\d+)$', ChannelUpdate.as_view(), name='channel_edit'),
     url(r'^channels/delete/(?P<pk>\d+)$', ChannelDelete.as_view(), name='channel_delete'),
 

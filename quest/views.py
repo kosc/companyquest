@@ -1,4 +1,5 @@
 from django.views.generic import ListView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 
@@ -9,6 +10,14 @@ from quest.serializers import ChannelSerializer, CampaignSerializer
 
 class ChannelList(ListView):
     model = Channel
+
+
+class ChannelDetail(DetailView):
+    model = Channel
+
+    def get_context_data(self, **kwargs):
+        context = super(ChannelDetail, self).get_context_data(**kwargs)
+        return context
 
 
 class ChannelCreate(CreateView):
