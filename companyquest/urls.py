@@ -26,13 +26,13 @@ urlpatterns = [
 
     url(r'^channels$', ChannelList.as_view(), name='channel_list'),
     url(r'^channels/new$', ChannelCreate.as_view(), name='channel_new'),
-    url(r'^channels/(?P<slug>[-\w]+)/', ChannelDetail.as_view(), name='channel_detail'),
+    url(r'^channels/detail/(?P<slug>[-\w]+)/', ChannelDetail.as_view(), name='channel_detail'),
     url(r'^channels/edit/(?P<pk>\d+)$', ChannelUpdate.as_view(), name='channel_edit'),
     url(r'^channels/delete/(?P<pk>\d+)$', ChannelDelete.as_view(), name='channel_delete'),
 
     url(r'^campaigns$', CampaignList.as_view(), name='campaign_list'),
     url(r'^Campaigns/new$', CampaignCreate.as_view(), name='campaign_new'),
-    url(r'^campaigns/(?P<pk>\d+)/', CampaignDetail.as_view(), name='campaign_detail'),
+    url(r'^campaigns/detail/(?P<pk>\d+)/', CampaignDetail.as_view(), name='campaign_detail'),
     url(r'^campaigns/edit/(?P<pk>\d+)$', CampaignUpdate.as_view(), name='campaign_edit'),
     url(r'^campaigns/delete/(?P<pk>\d+)$', CampaignDelete.as_view(), name='campaign_delete'),
 

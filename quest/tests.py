@@ -9,21 +9,33 @@ class ChannelCRUDTestCase(TestCase):
         super(ChannelCRUDTestCase, self).setUpTestData()
         self.channel_to_edit = Channel()
         self.channel_to_edit.name = 'name before edit'
-        self.channel_to_edit.slug = 'slug before edit'
+        self.channel_to_edit.slug = 'slug-before-edit'
         self.channel_to_edit.bid_types = ['bdi']
         self.channel_to_edit.save()
         self.channel_to_delete = Channel()
         self.channel_to_delete.name = 'deleted channel'
-        self.channel_to_delete.slug = 'deleted slug'
+        self.channel_to_delete.slug = 'deleted-slug'
         self.channel_to_delete.bid_types = ['cdi']
         self.channel_to_delete.save()
+        self.channel_to_read = Channel()
+        self.channel_to_read.name = 'Readable channel'
+        self.channel_to_read.slug = 'channel-slug'
+        self.channel_to_read.bid_types = ['cdi']
+        self.channel_to_read.save()
+
+    def test_read_channel(self):
+        response = self.client.get('/channels/detail/' + self.channel_to_read.slug + '/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Readable channel')
+        self.assertContains(response, 'channel-slug')
+        self.assertContains(response, 'cdi')
 
     def test_create_channel(self):
         response = self.client.get('/channels/new')
         self.assertEqual(response.status_code, 200)
         new_channel_data = {
             'name': 'channel name',
-            'slug': 'channel slug',
+            'slug': 'channel-slug',
             'bid_types': 'cdi',
         }
         response = self.client.post(
@@ -39,7 +51,7 @@ class ChannelCRUDTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         edited_channel_data = {
             'name': 'name after edit',
-            'slug': 'slug after edit',
+            'slug': 'slug-after-edit',
             'bid_types': 'cdi',
         }
         response = self.client.post(edit_url, edited_channel_data, follow=True)
