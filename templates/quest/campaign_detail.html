@@ -1,0 +1,4 @@
+<h1>{{ object.name }}</h1>
+<p>Channel: <a href="{% url 'channel_detail' object.channel.slug %}">{{ object.channel }}</a></p>
+<p>Bid: {{ object.bid }}</p>
+<p>BidType: {{ object.bid_type }}</p>

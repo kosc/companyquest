@@ -18,7 +18,7 @@ from django.contrib import admin
 
 from quest.views import ChannelList, ChannelCreate, ChannelDetail, \
                         ChannelUpdate, ChannelDelete, \
-                        CampaignList, CampaignCreate, \
+                        CampaignList, CampaignCreate, CampaignDetail, \
                         CampaignUpdate, CampaignDelete
 
 urlpatterns = [
@@ -30,10 +30,11 @@ urlpatterns = [
     url(r'^channels/edit/(?P<pk>\d+)$', ChannelUpdate.as_view(), name='channel_edit'),
     url(r'^channels/delete/(?P<pk>\d+)$', ChannelDelete.as_view(), name='channel_delete'),
 
-    url(r'^campaign$', CampaignList.as_view(), name='campaign_list'),
-    url(r'^campaign/new$', CampaignCreate.as_view(), name='campaign_new'),
-    url(r'^campaign/edit/(?P<pk>\d+)$', CampaignUpdate.as_view(), name='campaign_edit'),
-    url(r'^campaign/delete/(?P<pk>\d+)$', CampaignDelete.as_view(), name='campaign_delete'),
+    url(r'^campaigns$', CampaignList.as_view(), name='campaign_list'),
+    url(r'^Campaigns/new$', CampaignCreate.as_view(), name='campaign_new'),
+    url(r'^campaigns/(?P<pk>\d+)/', CampaignDetail.as_view(), name='campaign_detail'),
+    url(r'^campaigns/edit/(?P<pk>\d+)$', CampaignUpdate.as_view(), name='campaign_edit'),
+    url(r'^campaigns/delete/(?P<pk>\d+)$', CampaignDelete.as_view(), name='campaign_delete'),
 
     url(r'^api/', include('quest.urls', namespace='quest')),
 ]

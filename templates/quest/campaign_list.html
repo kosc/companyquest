@@ -2,7 +2,7 @@
 <ul>
   {% for campaign in object_list %}
     <li>
-      {{ campaign.name }}
+      <a href="{% url 'campaign_detail' campaign.id %}">{{ campaign.name }}</a>
       <a href="{% url 'campaign_edit' campaign.id %}">Edit</a>
       <a href="{% url 'campaign_delete' campaign.id %}">Delete</a>
     </li>

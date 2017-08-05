@@ -41,6 +41,14 @@ class CampaignList(ListView):
     model = Campaign
 
 
+class CampaignDetail(DetailView):
+    model = Campaign
+
+    def get_context_data(self, **kwargs):
+        context = super(CampaignDetail, self).get_context_data(**kwargs)
+        return context
+
+
 class CampaignCreate(CreateView):
     model = Campaign
     fields = ['name', 'channel', 'bid', 'bid_type']
